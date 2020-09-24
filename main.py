@@ -2,9 +2,7 @@
 # -*- coding: utf-8 -*-
 # This program is dedicated to the public domain under the CC0 license.
 
-"""
-Basic example for a bot that uses inline keyboards.
-"""
+
 import logging
 
 #Подключаеим библиотеку для работы с телегой https://python-telegram-bot.org/
@@ -215,8 +213,6 @@ def help(update, context):
                                                                         " но всё же.\r\nМеня всегда можно вызвать "
                                                                         "командой /start", reply_markup=reply_markup)
 
-    #context.bot.send_message ( chat_id=update.effective_user.id, text="Используйте  /start для начала работы с ботом.")
-
 
 def error(update, context):
     """Log Errors caused by Updates."""
@@ -224,9 +220,7 @@ def error(update, context):
 
 #Основное тело рограммы
 def main():
-    # Create the Updater and pass it your bot's token.
-    # Make sure to set use_context=True to use the new context based callbacks
-    # Post version 12 this will no longer be necessary
+
     updater = Updater(TOKEN, use_context=True)
     updater.dispatcher.add_handler(CallbackQueryHandler(button))
 
@@ -235,11 +229,10 @@ def main():
     updater.dispatcher.add_handler(CommandHandler('help', help))
     updater.dispatcher.add_error_handler(error)
 
-    # Start the Bot
+
     updater.start_polling()
 
-    # Run the bot until the user presses Ctrl-C or the process receives SIGINT,
-    # SIGTERM or SIGABRT
+
     updater.idle()
 
 
