@@ -7,15 +7,19 @@ Basic example for a bot that uses inline keyboards.
 """
 import logging
 
+#Подключаеим библиотеку для работы с телегой https://python-telegram-bot.org/
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Updater, CommandHandler, CallbackQueryHandler
+#Подтягиваем токен
 import var_TG
 from var_TG import TOKEN
 
+#Настраиваем отладку
 logging.basicConfig(filename="log.log",format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
+#создаем текстовые информационный блоки, надо бы засунуть это в базу или перенести в вики
 info_uk_str = "Режим работы УК:\r\n" \
               "пн-чт: 09:00 - 18:00\r\n" \
               "пт до 17:00 \r\n" \
@@ -53,6 +57,7 @@ info_operation_str = "Участковый: \r\n" \
                      "                                " \
                      "+7 (495) 566-35-50\r\n"
 
+#Стартовое меню
 def start(update, context):
     print("update = ", update)
 
@@ -64,7 +69,7 @@ def start(update, context):
         update.message.reply_text("Я вас категорически приветствую", reply_markup=reply_markup)
 
 
-
+#Основное меню бота
 def menu(update, context):
 
     query = update.callback_query
@@ -81,7 +86,7 @@ def menu(update, context):
                                  "и чатиков.", reply_markup=reply_markup)
 
 
-
+#Правила группы, надо бы расширить
 def lic(update, context):
     query = update.callback_query
     keyboard = [[InlineKeyboardButton("Понял", callback_data='menu')]]
@@ -91,6 +96,7 @@ def lic(update, context):
                                  "не рекламируй ничего здесь и не будешь лишён голоса,\r\n"
                                  "не спамь и не забанен будешь", reply_markup=reply_markup)
 
+#Ссылка на ресурсы
 def links(update, context):
     query = update.callback_query
     VK = [[InlineKeyboardButton("Открытая группа VK", url='https://vk.com/malina_nahabino'),
@@ -165,6 +171,7 @@ def save_29(update, context):
     query = update.callback_query
     query.edit_message_text(text=bus29.format(query.data))
 
+#это типа switch case (((
 def button(update, context):
     query = update.callback_query
     if query.data == "menu":
@@ -215,7 +222,7 @@ def error(update, context):
     """Log Errors caused by Updates."""
     logger.warning('Update "%s" caused error "%s"', update, context.error)
 
-
+#Основное тело рограммы
 def main():
     # Create the Updater and pass it your bot's token.
     # Make sure to set use_context=True to use the new context based callbacks
